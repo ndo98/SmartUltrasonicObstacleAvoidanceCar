@@ -41,7 +41,7 @@ void setup() {
 }
 
 void advance(int a) {// forward
-  analogWrite(enAB,motorSpeed);
+  analogWrite(enAB,127); //50%
   digitalWrite(pinRB,LOW); // let motor act(right back)
   digitalWrite(pinRF,HIGH);
   digitalWrite(pinLB,LOW); // let motor act(left back)
@@ -50,7 +50,7 @@ void advance(int a) {// forward
 }
 
 void right(int b) {//turn right(single wheel)
-  analogWrite(enAB,motorSpeed);
+  analogWrite(enAB,191); //75%
   digitalWrite(pinRB,LOW); //let motor act(right back)
   digitalWrite(pinRF,HIGH);
   digitalWrite(pinLB,HIGH);
@@ -59,7 +59,7 @@ void right(int b) {//turn right(single wheel)
 }
 
 void left(int c) {//turn left(single wheel)
-  analogWrite(enAB,motorSpeed);
+  analogWrite(enAB,191); //75%
   digitalWrite(pinRB,HIGH);
   digitalWrite(pinRF,HIGH);
   digitalWrite(pinLB,LOW); //let motor act(left back)
@@ -68,7 +68,7 @@ void left(int c) {//turn left(single wheel)
 }
 
 void turnR(int d) {//turn right(double wheel)
-  analogWrite(enAB,motorSpeed);
+  analogWrite(enAB,191); //75%
   digitalWrite(pinRB,LOW); //let motor act(right back)
   digitalWrite(pinRF,HIGH);
   digitalWrite(pinLB,HIGH);
@@ -77,7 +77,7 @@ void turnR(int d) {//turn right(double wheel)
 }
 
 void turnL(int e) {//turn left(double wheel)
-  analogWrite(enAB,motorSpeed);
+  analogWrite(enAB,191); //75%
   digitalWrite(pinRB,HIGH);
   digitalWrite(pinRF,LOW); //let motor act(right front)
   digitalWrite(pinLB,LOW); //let motor act(left back)
@@ -86,7 +86,7 @@ void turnL(int e) {//turn left(double wheel)
 }
 
 void stopp(int f) {//stop
-  analogWrite(enAB,255);
+  analogWrite(enAB,255); //100%
   digitalWrite(pinRB,HIGH);
   digitalWrite(pinRF,HIGH);
   digitalWrite(pinLB,HIGH);
@@ -95,7 +95,7 @@ void stopp(int f) {//stop
 }
 
 void back(int g) {//backward
-  analogWrite(enAB,motorSpeed);
+  analogWrite(enAB,191); //75%
   digitalWrite(pinRB,HIGH); //let motor act(right back)
   digitalWrite(pinRF,LOW);
   digitalWrite(pinLB,HIGH); //let motor act(left back)
