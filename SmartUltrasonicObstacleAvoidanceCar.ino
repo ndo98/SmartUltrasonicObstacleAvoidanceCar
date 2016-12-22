@@ -8,6 +8,7 @@ B=backward
 #include <Servo.h>
 
 int enAB=5; // PWM speed control
+int motorSpeed=127; // motor speed
 int pinLB=6; // define 6 pin left backward
 int pinLF=9; // define 9 pin left forward
 int pinRB=10; // define 10 pin left right backward
@@ -40,7 +41,7 @@ void setup() {
 }
 
 void advance(int a) {// forward
-  analogWrite(enAB,127);
+  analogWrite(enAB,motorSpeed);
   digitalWrite(pinRB,LOW); // let motor act(right back)
   digitalWrite(pinRF,HIGH);
   digitalWrite(pinLB,LOW); // let motor act(left back)
@@ -49,6 +50,7 @@ void advance(int a) {// forward
 }
 
 void right(int b) {//turn right(single wheel)
+  analogWrite(enAB,motorSpeed);
   digitalWrite(pinRB,LOW); //let motor act(right back)
   digitalWrite(pinRF,HIGH);
   digitalWrite(pinLB,HIGH);
@@ -57,6 +59,7 @@ void right(int b) {//turn right(single wheel)
 }
 
 void left(int c) {//turn left(single wheel)
+  analogWrite(enAB,motorSpeed);
   digitalWrite(pinRB,HIGH);
   digitalWrite(pinRF,HIGH);
   digitalWrite(pinLB,LOW); //let motor act(left back)
@@ -65,6 +68,7 @@ void left(int c) {//turn left(single wheel)
 }
 
 void turnR(int d) {//turn right(double wheel)
+  analogWrite(enAB,motorSpeed);
   digitalWrite(pinRB,LOW); //let motor act(right back)
   digitalWrite(pinRF,HIGH);
   digitalWrite(pinLB,HIGH);
@@ -73,6 +77,7 @@ void turnR(int d) {//turn right(double wheel)
 }
 
 void turnL(int e) {//turn left(double wheel)
+  analogWrite(enAB,motorSpeed);
   digitalWrite(pinRB,HIGH);
   digitalWrite(pinRF,LOW); //let motor act(right front)
   digitalWrite(pinLB,LOW); //let motor act(left back)
@@ -81,6 +86,7 @@ void turnL(int e) {//turn left(double wheel)
 }
 
 void stopp(int f) {//stop
+  analogWrite(enAB,255);
   digitalWrite(pinRB,HIGH);
   digitalWrite(pinRF,HIGH);
   digitalWrite(pinLB,HIGH);
@@ -89,6 +95,7 @@ void stopp(int f) {//stop
 }
 
 void back(int g) {//backward
+  analogWrite(enAB,motorSpeed);
   digitalWrite(pinRB,HIGH); //let motor act(right back)
   digitalWrite(pinRF,LOW);
   digitalWrite(pinLB,HIGH); //let motor act(left back)
@@ -109,7 +116,7 @@ void detection() {//measure three angles(0.90.179)
   if(Fspeedd < 20) { // if distance ahead is less than 10cm
     ledOn();
     stopp(5); // Clear output data
-    back(1); // backward for 0.2 sec
+    back(2); // backward for 0.2 sec
   }
   if(Fspeedd < 35) { // if distance ahead is less than 25cm
     ledOn();
@@ -182,18 +189,18 @@ void loop() {
   myservo.write(95); //let servo motor return to its ready position, prepared for the next measurement
   detection(); //measure angle and decide moving direction
   if(directionn == 2) {//if directionn(direction) = 2(backward)
-    back(1); // backward(car)
-    turnL(1); //slightly move leftwards(prevent from being stuck in blind alley)
+    back(4); // backward(car)
+    turnL(2); //slightly move leftwards(prevent from being stuck in blind alley)
     Serial.print(" Reverse "); //display direction(backward)
   }
   if(directionn == 6) {//if directionn(direction) = 6(rightward)
-    back(1);
-    turnR(1); // turn right
+    back(4);
+    turnR(4); // turn right
     Serial.print(" Right "); //display direction(turn left)
   }
   if(directionn == 4) { //if directionn(direction) = 4(turn left)
-    back(1);
-    turnL(1); // turn left
+    back(4);
+    turnL(4); // turn left
     Serial.print(" Left "); //display direction(turn right)
   }
   if(directionn == 8) { //if directionn(direction) = 8(forward)
