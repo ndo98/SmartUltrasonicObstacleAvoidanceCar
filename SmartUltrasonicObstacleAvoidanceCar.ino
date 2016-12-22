@@ -8,7 +8,6 @@ B=backward
 #include <Servo.h>
 
 int enAB=5; // PWM speed control
-int motorSpeed=127; // motor speed
 int pinLB=6; // define 6 pin left backward
 int pinLF=9; // define 9 pin left forward
 int pinRB=10; // define 10 pin left right backward
@@ -41,7 +40,7 @@ void setup() {
 }
 
 void advance(int a) {// forward
-  analogWrite(enAB,127); //50%
+  analogWrite(enAB,157); //50%
   digitalWrite(pinRB,LOW); // let motor act(right back)
   digitalWrite(pinRF,HIGH);
   digitalWrite(pinLB,LOW); // let motor act(left back)
