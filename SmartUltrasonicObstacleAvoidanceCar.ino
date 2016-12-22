@@ -7,6 +7,7 @@ B=backward
 
 #include <Servo.h>
 
+int enAB=5; // PWM speed control
 int pinLB=6; // define 6 pin left backward
 int pinLF=9; // define 9 pin left forward
 int pinRB=10; // define 10 pin left right backward
@@ -26,18 +27,20 @@ int Bgo = 2; // backward
 int Led = 13; // Onboard LED
 
 void setup() {
-  pinMode(Led, OUTPUT);
   Serial.begin(9600); // define motor output pin
+  pinMode(Led, OUTPUT); // Onboard LED
+  pinMode(enAB,OUTPUT); // PWM speed control
   pinMode(pinLB,OUTPUT); // pin 8 (PWM)
   pinMode(pinLF,OUTPUT); // pin 9 (PWM)
   pinMode(pinRB,OUTPUT); // pin 10 (PWM)
   pinMode(pinRF,OUTPUT); // pin 11 (PWM)
   pinMode(inputPin, INPUT); // define ultrasonic input pin
   pinMode(outputPin, OUTPUT); // define ultrasonic output pin
-  myservo.attach(5); // define the fifth pin of servo motor(PWM)
+  myservo.attach(3); // define the fifth pin of servo motor(PWM)
 }
 
 void advance(int a) {// forward
+  analogWrite(enAB,127);
   digitalWrite(pinRB,LOW); // let motor act(right back)
   digitalWrite(pinRF,HIGH);
   digitalWrite(pinLB,LOW); // let motor act(left back)
