@@ -114,16 +114,16 @@ void detection() {//measure three angles(0.90.179)
   ask_pin_F(); // read distance ahead
   if(Fspeedd < 20) { // if distance ahead is less than 10cm
     ledOn();
-    stopp(5); // Clear output data
+    stopp(1); // Clear output data
     back(2); // backward for 0.2 sec
   }
   if(Fspeedd < 35) { // if distance ahead is less than 25cm
     ledOn();
-    stopp(5); // Clear output data
+    stopp(1); // Clear output data
     ask_pin_L(); // read distance on the left side
-    delay(delay_time); // wait for the servo to stabilize
+    //delay(delay_time); // wait for the servo to stabilize
     ask_pin_R(); // ead distance on the right side
-    delay(delay_time); // wait for the servo to stabilize
+    //delay(delay_time); // wait for the servo to stabilize
     if(Lspeedd > Rspeedd) { //if the distance on the left side is larger than that of the right side
       directionn = Rgo; //go leftwards
     }
@@ -141,14 +141,14 @@ void detection() {//measure three angles(0.90.179)
 
 void ask_pin_F() {// measure distance ahead
   myservo.write(95);
-  delay(delay_time);
+  delay(delay_time); // wait for the servo to stabilize
   digitalWrite(outputPin, LOW); // let ultrasonic transmit low voltage 2μ s
   delayMicroseconds(2);
   digitalWrite(outputPin, HIGH); // let ultrasonic transmit hight voltage 10μ s, at least 10μ s here
   delayMicroseconds(10);
   digitalWrite(outputPin, LOW); // keep ultrasonic transmitting low voltage
   float Fdistance = pulseIn(inputPin, HIGH); // read time gap
-  Fdistance= Fdistance/5.8/10; // convert time into distance(unit:cm)
+  Fdistance = Fdistance/5.8/10; // convert time into distance(unit:cm)
   Serial.print("F distance:"); //output distance(unit:cm)
   Serial.println(Fdistance); //display distance
   Fspeedd = Fdistance; // read distance into Fspeedd(forward speed)
@@ -156,14 +156,14 @@ void ask_pin_F() {// measure distance ahead
 
 void ask_pin_L() {// measure distance on the left side
   myservo.write(30);
-  delay(delay_time);
+  delay(delay_time); // wait for the servo to stabilize
   digitalWrite(outputPin, LOW); // let ultrasonic transmit low voltage 2μ s
   delayMicroseconds(2);
   digitalWrite(outputPin, HIGH); // let ultrasonic transmit hight voltage 10μ s, at least 10μ s here
   delayMicroseconds(10);
   digitalWrite(outputPin, LOW); // keep ultrasonic transmitting low voltage
   float Ldistance = pulseIn(inputPin, HIGH); // read time gap
-  Ldistance= Ldistance/5.8/10; // convert time into distance(unit:cm)
+  Ldistance = Ldistance/5.8/10; // convert time into distance(unit:cm)
   Serial.print("L distance:"); //output distance(unit:cm)
   Serial.println(Ldistance); //display distance
   Lspeedd = Ldistance; // read distance into Lspeedd(Leftward speed)
@@ -171,14 +171,14 @@ void ask_pin_L() {// measure distance on the left side
 
 void ask_pin_R() {// measure distance on the right side
   myservo.write(170);
-  delay(delay_time);
+  delay(delay_time); // wait for the servo to stabilize
   digitalWrite(outputPin, LOW); // let ultrasonic transmit low voltage 2μ s
   delayMicroseconds(2);
   digitalWrite(outputPin, HIGH); // let ultrasonic transmit high voltage 10μ s, at least 10μ s here
   delayMicroseconds(10);
   digitalWrite(outputPin, LOW); // keep ultrasonic transmitting low voltage
   float Rdistance = pulseIn(inputPin, HIGH); // read time gap
-  Rdistance= Rdistance/5.8/10; // convert time into distance(unit:cm)
+  Rdistance = Rdistance/5.8/10; // convert time into distance(unit:cm)
   Serial.print("R distance:"); //output distance(unit:cm)
   Serial.println(Rdistance); //display distance
   Rspeedd = Rdistance; // read distance into Rspeedd(rightward speed)
@@ -189,22 +189,21 @@ void loop() {
   detection(); //measure angle and decide moving direction
   if(directionn == 2) {//if directionn(direction) = 2(backward)
     back(4); // backward(car)
-    turnL(2); //slightly move leftwards(prevent from being stuck in blind alley)
+    turnL(1); //slightly move leftwards(prevent from being stuck in blind alley)
     Serial.print(" Reverse "); //display direction(backward)
   }
   if(directionn == 6) {//if directionn(direction) = 6(rightward)
     back(4);
-    turnR(4); // turn right
+    turnR(2); // turn right
     Serial.print(" Right "); //display direction(turn left)
   }
   if(directionn == 4) { //if directionn(direction) = 4(turn left)
     back(4);
-    turnL(4); // turn left
+    turnL(2); // turn left
     Serial.print(" Left "); //display direction(turn right)
   }
   if(directionn == 8) { //if directionn(direction) = 8(forward)
     advance(1); // go forward as normal
     Serial.print(" Advance "); //display direction(forward)
   }
-
 }
