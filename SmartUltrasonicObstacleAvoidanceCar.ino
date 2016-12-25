@@ -19,7 +19,7 @@ int Rspeedd = 0; // turning right speed
 int Lspeedd = 0; // turning left speed
 int directionn = 0; // forward=8 backward=2 left=4 right=6
 Servo myservo; // set myservo
-int delay_time = 250; // stabilizing time of servo motor after turning
+int delay_time = 500; // stabilizing time of servo motor after turning
 int Fgo = 8; // forward
 int Rgo = 6; // turn right
 int Lgo = 4; // turn left
@@ -115,7 +115,7 @@ void detection() {//measure three angles(0.90.179)
   if(Fspeedd < 20) { // if distance ahead is less than 10cm
     ledOn();
     stopp(1); // Clear output data
-    back(2); // backward for 0.2 sec
+    //back(4); // backward for 0.2 sec
   }
   if(Fspeedd < 35) { // if distance ahead is less than 25cm
     ledOn();
@@ -194,12 +194,12 @@ void loop() {
   }
   if(directionn == 6) {//if directionn(direction) = 6(rightward)
     back(4);
-    turnR(2); // turn right
+    turnR(3); // turn right
     Serial.print(" Right "); //display direction(turn left)
   }
   if(directionn == 4) { //if directionn(direction) = 4(turn left)
     back(4);
-    turnL(2); // turn left
+    turnL(3); // turn left
     Serial.print(" Left "); //display direction(turn right)
   }
   if(directionn == 8) { //if directionn(direction) = 8(forward)
