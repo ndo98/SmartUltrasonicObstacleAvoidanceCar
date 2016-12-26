@@ -154,11 +154,11 @@ void moveServo(int degree) {
       delay(10);
     }
   }
+  servoLastDegree = degree;
 }
 
 void ask_pin_F() {// measure distance ahead
   moveServo(95);
-  servoLastDegree = 95;
   delay(delay_time); // wait for the servo to stabilize
   digitalWrite(outputPin, LOW); // let ultrasonic transmit low voltage 2μ s
   delayMicroseconds(2);
@@ -174,7 +174,6 @@ void ask_pin_F() {// measure distance ahead
 
 void ask_pin_L() {// measure distance on the left side
   moveServo(30);
-  servoLastDegree = 30;
   delay(delay_time); // wait for the servo to stabilize
   digitalWrite(outputPin, LOW); // let ultrasonic transmit low voltage 2μ s
   delayMicroseconds(2);
@@ -190,7 +189,6 @@ void ask_pin_L() {// measure distance on the left side
 
 void ask_pin_R() {// measure distance on the right side
   moveServo(170);
-  servoLastDegree = 170;
   delay(delay_time); // wait for the servo to stabilize
   digitalWrite(outputPin, LOW); // let ultrasonic transmit low voltage 2μ s
   delayMicroseconds(2);
@@ -206,7 +204,6 @@ void ask_pin_R() {// measure distance on the right side
 
 void loop() {
   moveServo(95);
-  servoLastDegree = 95;
   detection(); //measure angle and decide moving direction
   if(directionn == 2) {//if directionn(direction) = 2(backward)
     back(4); // backward(car)
