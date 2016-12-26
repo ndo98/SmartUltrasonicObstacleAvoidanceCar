@@ -19,12 +19,13 @@ int Rspeedd = 0; // turning right speed
 int Lspeedd = 0; // turning left speed
 int directionn = 0; // forward=8 backward=2 left=4 right=6
 Servo myservo; // set myservo
-int delay_time = 500; // stabilizing time of servo motor after turning
+int delay_time = 200; // stabilizing time of servo motor after turning
 int Fgo = 8; // forward
 int Rgo = 6; // turn right
 int Lgo = 4; // turn left
 int Bgo = 2; // backward
 int Led = 13; // Onboard LED
+int servoLastDegree = 0; // servoLastDegree
 
 void setup() {
   Serial.begin(9600); // define motor output pin
@@ -139,8 +140,25 @@ void detection() {//measure three angles(0.90.179)
   }
 }
 
+void moveServo(int degree) {
+  if (servoLastDegree < degree) {
+    while (servoLastDegree < degree) {
+      servoLastDegree++;
+      myservo.write(servoLastDegree);
+      delay(10);
+    }
+  } else if (servoLastDegree > degree) {
+    while (servoLastDegree > degree) {
+      servoLastDegree--;
+      myservo.write(servoLastDegree);
+      delay(10);
+    }
+  }
+}
+
 void ask_pin_F() {// measure distance ahead
-  myservo.write(95);
+  moveServo(95);
+  servoLastDegree = 95;
   delay(delay_time); // wait for the servo to stabilize
   digitalWrite(outputPin, LOW); // let ultrasonic transmit low voltage 2μ s
   delayMicroseconds(2);
@@ -155,7 +173,8 @@ void ask_pin_F() {// measure distance ahead
 }
 
 void ask_pin_L() {// measure distance on the left side
-  myservo.write(30);
+  moveServo(30);
+  servoLastDegree = 30;
   delay(delay_time); // wait for the servo to stabilize
   digitalWrite(outputPin, LOW); // let ultrasonic transmit low voltage 2μ s
   delayMicroseconds(2);
@@ -170,7 +189,8 @@ void ask_pin_L() {// measure distance on the left side
 }
 
 void ask_pin_R() {// measure distance on the right side
-  myservo.write(170);
+  moveServo(170);
+  servoLastDegree = 170;
   delay(delay_time); // wait for the servo to stabilize
   digitalWrite(outputPin, LOW); // let ultrasonic transmit low voltage 2μ s
   delayMicroseconds(2);
@@ -185,7 +205,8 @@ void ask_pin_R() {// measure distance on the right side
 }
 
 void loop() {
-  myservo.write(95); //let servo motor return to its ready position, prepared for the next measurement
+  moveServo(95);
+  servoLastDegree = 95;
   detection(); //measure angle and decide moving direction
   if(directionn == 2) {//if directionn(direction) = 2(backward)
     back(4); // backward(car)
